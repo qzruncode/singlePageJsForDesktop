@@ -2,7 +2,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 // const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
-const webpack = require("webpack");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 console.log(process.env.NODE_ENV)
@@ -12,11 +11,11 @@ module.exports = {
     mode: "production", // 自带 tree shaking
     entry: {
         index: {
-            import: ["/src/index.js", "webpack-hot-middleware/client?path=/__yejiawei&timeout=10000&overlay=false&reload=true"],
+            import: ["/src/index.js"],
             dependOn: 'shared' // 多入口重复导入代码的分割
         },
         common: {
-            import: ["/src/common.js", "webpack-hot-middleware/client?path=/__yejiawei&timeout=10000&overlay=false&reload=true"],
+            import: ["/src/common.js"],
             dependOn: 'shared'
         },
         shared: 'lodash', // 指出那些在多入口中重复import代码需要共用，提取到shared.js中
@@ -67,7 +66,6 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({ template: "./public/index.html" }),
         new CleanWebpackPlugin(), // 清空dist目录
-        new webpack.HotModuleReplacementPlugin(), // 开启HMR
         new MiniCssExtractPlugin({
             filename: "css/[name].[contenthash].css",
             chunkFilename: 'css/[id].[contenthash].css',

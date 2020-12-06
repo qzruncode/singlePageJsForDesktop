@@ -41,6 +41,9 @@ module.exports = {
             },
         }
     },
+    resolve: {
+        extensions: [ '.js' ],
+    },
     output: {
         path: path.resolve(__dirname, "../dist"),
         filename: "js/[name].[contenthash].js", // 当内容发生改变 contenthash 就会变，必须将runtime代码提取出来才会生效
