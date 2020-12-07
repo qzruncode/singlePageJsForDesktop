@@ -51,13 +51,37 @@ module.exports = {
     },
     devtool: "inline-source-map",
     module: {
+        /**
+            asset/resource 替换 file-loader，导出文件 URL
+            asset/inline 替换 url-loader，导出 dataURI
+            asset/source 替换 raw-loader，导出文件源码
+            asset 替换 url-loader，自动判断是 导出dataURI 还是 导出文件
+         */
         rules: [
-            { test: /\.txt$/, use: "raw-loader" },
+            { 
+                test: /\.txt$/, 
+                type: 'asset',
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 4 * 1024 // 超过4kb会生成文件
+                    }
+                }
+            },
             { test: /\.css$/i, use: ["style-loader", "css-loader"] },
-            { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: "asset/resource" },
-            { test: /\.(woff|woff2|eot|ttf|otf)$/i, type: "asset/resource" },
-            { test: /\.(csv|tsv)$/i, use: ["csv-loader"] },
-            { test: /\.xml$/i, use: ["xml-loader"] },
+            { 
+                test: /\.(png|svg|jpg|jpeg|gif)$/i, 
+                type: "asset/resource",
+                generator: { // 文件生成到 image 目录下
+                    filename: 'image/[hash][ext][query]'
+                }
+            },
+            { 
+                test: /\.(woff|woff2|eot|ttf|otf)$/i, 
+                type: "asset/resource",
+                generator: { // 文件生成到 font 目录下
+                    filename: 'image/[hash][ext][query]'
+                }
+            }
         ],
     },
     plugins: [
