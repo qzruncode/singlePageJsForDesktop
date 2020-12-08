@@ -1,5 +1,8 @@
+import "core-js/stable";
+import 'regenerator-runtime/runtime';
+
 import _ from 'lodash'
-import './index.css';
+import './index.less';
 import { test } from './thrid';
 test();
 

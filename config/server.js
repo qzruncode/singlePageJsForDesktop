@@ -7,6 +7,9 @@ const app = express();
 const config = require("./dev.webpack.config.js");
 const compiler = webpack(config);
 
+// webpack 默认支持 json 和 js 处理
+// 推荐使用babel处理js，可以用最新的js特性
+
 app.use(
   webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath,
