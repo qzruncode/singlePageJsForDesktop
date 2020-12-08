@@ -1,7 +1,7 @@
 import "core-js/stable";
 import 'regenerator-runtime/runtime';
 
-import _ from 'lodash'
+// import _ from 'lodash';
 import './index.less';
 import { test } from './thrid';
 test();

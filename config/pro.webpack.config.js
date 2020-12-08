@@ -1,7 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-// const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 console.log(process.env.NODE_ENV);
@@ -120,6 +119,5 @@ module.exports = {
       filename: "css/[name].[contenthash].css",
       chunkFilename: "css/[id].[contenthash].css",
     }), // 将js文件中import的css文件提取到单独的css文件中
-    // new WebpackManifestPlugin(), // 生成原始文件和生成文件的映射清单
   ],
 };

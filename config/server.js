@@ -13,7 +13,7 @@ const compiler = webpack(config);
 app.use(
   webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath,
-    writeToDisk: true, // 文件保存在内存
+    writeToDisk: true, // 文件是否保存在内存
   })
 );
 
