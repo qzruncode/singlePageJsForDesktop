@@ -6,8 +6,6 @@ const CopyPlugin = require("copy-webpack-plugin");
 const ESLintPlugin = require('eslint-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
-console.log(process.env.NODE_ENV);
-
 const publicPath = "/";
 module.exports = {
     stats: "errors-warnings", // 只有错误或者警告的时候才输出信息
