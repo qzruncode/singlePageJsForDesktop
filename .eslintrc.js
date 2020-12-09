@@ -4,7 +4,7 @@ module.exports = {
         "es2021": true, // es12相关的变量
     },
     "extends": "eslint:recommended",
-    "ignorePatterns": ["config"], // 忽略目录
+    "ignorePatterns": ["config", ".eslintrc.js"], // 忽略目录
     "parserOptions": {
         "ecmaVersion": 12, // 允许开启es12语法
         "sourceType": "module", // script 或者 module
@@ -22,7 +22,7 @@ module.exports = {
         "space-unary-ops": 2
     },
     "globals": {
-        "a": "readonly"
+        "process": "readonly",
     },
     "noInlineConfig": true, // 禁止在js文件中使用注释来配置eslint规则
 };

@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 const ESLintPlugin = require('eslint-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const publicPath = "/";
 module.exports = {
@@ -154,9 +155,6 @@ module.exports = {
         ],
     },
     plugins: [
-        new webpack.BannerPlugin({ // 在编译生成的文件头部添加注释
-            banner: 'build time: ' + (new Date()).toLocaleString()
-        }),
         new CopyPlugin({
             patterns: [
                 { from: "static", to: "static" },
@@ -165,10 +163,11 @@ module.exports = {
         new ESLintPlugin({
             formatter: 'table', // 设置eslint报错样式
             exclude: 'node_modules',
-            extensions: ['js', 'ts']
+            extensions: ['js']
         }),
         new HtmlWebpackPlugin({ template: "./public/index.html" }),
         new CleanWebpackPlugin(), // 清空dist目录
         new webpack.HotModuleReplacementPlugin(), // 开启HMR，生产环境不能使用此配置，否则会产生没必要的文件名更新
+        new Dotenv(),
     ],
 };
