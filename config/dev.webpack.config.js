@@ -7,6 +7,8 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 const publicPath = "/";
 module.exports = {
+    stats: "errors-warnings", // 只有错误或者警告的时候才输出信息
+    context: path.resolve(__dirname, '../'),
     mode: "development", // development production none
     entry: {
         index: {
@@ -40,12 +42,19 @@ module.exports = {
             chunks: "all",
             maxAsyncRequests: 30, // 按需加载最大并行请求
             maxInitialRequests: 30, // 每个入口点最大的并行请求
-            // https://webpack.js.org/plugins/split-chunks-plugin/
+            minSize: 20000, // 生成chunk最小的大小
+            enforceSizeThreshold: 50000, // 当chunk的大小超过此值将强制拆分
             cacheGroups: {
-                // 将第三方库文件全部提取到vendors.js中
+                // 提取第三方库文件
                 vendor: {
                     test: /[\\/]node_modules[\\/]/,
-                    name: "vendors",
+                    name(module, chunks, cacheGroupKey) { // 给提取的文件取名
+                        // module.identifier() 原始文件的路径
+                        // cacheGroupKey 当前cacheGroups的组名
+                        const moduleFileName = module.identifier().split('/').reduceRight(item => item); // 获取原始文件的文件名
+                        const allChunksNames = chunks.map((item) => item.name).join('~');
+                        return `${cacheGroupKey}-${allChunksNames}-${moduleFileName}`;
+                    },            
                     chunks: "all",
                 },
             },
@@ -53,13 +62,20 @@ module.exports = {
     },
     resolve: {
         extensions: [".js"],
+        modules: [ // 设置解析模块时要查找的路径
+            "node_modules",
+            path.resolve(__dirname, '../', 'src')
+        ],
+        alias: {
+            "@": path.resolve(__dirname, '../', 'src'),
+        },
     },
     output: {
         path: path.resolve(__dirname, "../dist"),
         filename: "js/[name].[contenthash].js", // 当内容发生改变 contenthash 就会变，必须将runtime代码提取出来才会生效
         publicPath: publicPath,
     },
-    devtool: "inline-source-map",
+    devtool: "eval-cheap-source-map",
     module: {
         /**
             asset/resource 替换 file-loader，导出文件 URL
@@ -151,10 +167,6 @@ module.exports = {
             exclude: 'node_modules',
             extensions: ['js', 'ts']
         }),
-        new webpack.optimize.MinChunkSizePlugin({
-            minChunkSize: 10000 // 限制文件打包后的文件字节数，减少http请求
-        }),
-          
         new HtmlWebpackPlugin({ template: "./public/index.html" }),
         new CleanWebpackPlugin(), // 清空dist目录
         new webpack.HotModuleReplacementPlugin(), // 开启HMR，生产环境不能使用此配置，否则会产生没必要的文件名更新

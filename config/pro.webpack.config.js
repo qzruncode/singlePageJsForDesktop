@@ -19,6 +19,15 @@ module.exports = {
     },
     shared: "lodash", // 指出那些在多入口中重复import代码需要共用，提取到shared.js中
   },
+  performance: {
+    hints: "warning", // 发出警告，默认最大值是250kb
+    maxAssetSize: 4000000, // 文件size最大值
+    maxEntrypointSize: 4000000, // 入口size最大值
+    assetFilter: function (assetFilename) {
+      // 过滤出需要计算大小的文件
+      return assetFilename.endsWith(".css") || assetFilename.endsWith(".js");
+    },
+  },
   optimization: {
     moduleIds: "deterministic", // 替换自增的module.id，保证vendors.js的id更改，使用此配置 filename 的 contenthash 缓存功能才会生效
     runtimeChunk: "single", // 单页面的多入口文件代码分割必须加此配置，将多入口的runtime文件放在一起
@@ -70,7 +79,7 @@ module.exports = {
             options: { publicPath: publicPath },
           },
           "css-loader",
-          "less-loader"
+          "less-loader",
         ],
       },
       {
