@@ -4,7 +4,7 @@ module.exports = {
         "es2021": true, // es12相关的变量
     },
     "extends": "eslint:recommended",
-    "ignorePatterns": ["config", ".eslintrc.js"], // 忽略目录
+    "ignorePatterns": ["node_modules", "config", "public", "dist", "env", "static", ".eslintrc.js"], // 忽略目录
     "parserOptions": {
         "ecmaVersion": 12, // 允许开启es12语法
         "sourceType": "module", // script 或者 module

@@ -165,7 +165,7 @@ module.exports = {
         }), // 复制文件或者文件夹
         new ESLintPlugin({
             formatter: 'table', // 设置eslint报错样式
-            exclude: 'node_modules',
+            exclude: ['node_modules', 'config', 'public', 'dist', 'env', 'static'],
             extensions: ['js']
         }),
         new HtmlWebpackPlugin({ template: "./public/index.html" }),
